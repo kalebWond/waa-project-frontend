@@ -1,70 +1,65 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Property Management Portal
+ 
+Property management portal is a web-based java project where house owners and customers can exchange information effectively and inexpensively. This system provides a user-friendly interface, satisfying the needs of the consumers. 
 
-## Available Scripts
+To get a better understanding of the project, check out zillow.com.
 
-In the project directory, you can run:
+There are four roles in this system: Owner, Admin, Customer, and Viewer.
+ - The viewer is the user who can only search and display properties. (Unregistered users)  
+ - The owner is the user who owns the property and wants it to give it for rent/sale. The owner will upload all the details of the property such as the number of rooms, price etc... 
+ - Admin manages all the users of the system. 
+ - Customer is the one who is looking for a property. She/He can search the properties according to the requirements and get the results accordingly and submit an application for the property.
 
-### `npm start`
+Dashboard Page for admins:
+- Display the last 10 properties rented.
+- Display 10 most recent customers.
+- Add more features as you see fit.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Dashboard Page for owners:
+- Display properties.
+- Display total views of the properties per location.
+- Add more features as you see fit.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+####  Functional  Requirements
+--- 
+* Owners/Customers can register to the system.
+* Owners can add properties.
+	* Can upload pictures of the property.
+	* Optional: Use cloud services like Amazon S3 or Google Cloud Storage.
+* Owners can see their own properties and manage them.
+	* Can unlist, and edit the property.
+* Owners and Customers can filter properties:
+	* by price,
+	* by property type,
+	* by a number of rooms,
+	* home type,
+	* by location.
+* Customers can submit an application to buy/rent the property.
+	* Once an application is submitted, owner will get an email.
+* Owners can display all applications and filter them
+	* by property,
+	* by submission date,
+	* by location.
+* Admin can manage customers and owners.
+*  Admin can Activate/Deactivate customers and owners.
+* Admin can reset passwords.
+* Customers and owners can reset their password.
+	* Users should follow a password reset link.
+* Customers can add properties to their favorite lists.
+	* Customers can have multiple favorite lists.
+* Customers can manage their own favorite lists.
 
-### `npm test`
+#### Sample Domain Models
+---
+Refer to zillow.com
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### Technical Details
+---
+* Use Java and Spring Boot framework for the backend project.
+* Use React framework for the frontend project.
+* Use n-tier software architecture model.
+* Populate your database with dummy data using `data.sql`.
+	* Prepare your dummy data for testing and presentation.
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+ 
