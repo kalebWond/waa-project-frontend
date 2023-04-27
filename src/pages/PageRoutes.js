@@ -17,6 +17,7 @@ import OwnerProperties from '../components/owner/OwnerProperties'
 import Owners from '../components/admin/Owners'
 import AddOffer from '../components/customer/AddOffer'
 import OwnerPropertyDetails from '../components/owner/OwnerPropertyDetails'
+import AddProperty from '../components/owner/AddProperty'
 
 function PageRoutes() {
     return (
@@ -43,6 +44,7 @@ function PageRoutes() {
                         <Route path="offers" element={<OwnerOffers />} />
                         <Route path="properties" element={<OwnerProperties />} />
                         <Route path="properties/:id" element={<OwnerPropertyDetails />} />
+                        <Route path="properties/add" element={<AddProperty />} />
                     </Route>
                 </Routes>
             </div>

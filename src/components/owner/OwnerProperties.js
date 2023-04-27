@@ -19,7 +19,7 @@ function OwnerProperties() {
 
   return (
     <div>
-      <div className="flex justify-between mb-6 items-center">
+      <div className="flex flex-col justify-between mb-6 items-center">
         <div className="grid gap-8 grid-cols-3 grid-rows-3">
           {properties.map(pro => <OwnerProperty key={pro.id} data={pro} />)}
         </div>

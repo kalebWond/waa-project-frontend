@@ -41,7 +41,7 @@ function Header() {
     }
 
     const logout = () => {
-        setUser(null); 
+        setUser(null);
         localStorage.clear();
         nav("/");
     }
@@ -83,25 +83,26 @@ function Header() {
                                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                                     {!user && (
                                         <>
-                                        <Link to="login"
-                                            type="button"
-                                            className="rounded-md px-3 py-1.5 bg-gray-900 p-1 text-gray-300 hover:text-white focus:outline-none "
-                                        >
-                                            Login
-                                        </Link>
+                                            <Link to="login"
+                                                type="button"
+                                                className="rounded-md px-3 py-1.5 bg-gray-900 p-1 text-gray-300 hover:text-white focus:outline-none "
+                                            >
+                                                Login
+                                            </Link>
 
-                                        <Link to="signup"
-                                            type="button"
-                                            className="ml-3 rounded-md px-3 py-1.5 bg-gray-900 p-1 text-gray-300 hover:text-white focus:outline-none "
-                                        >
-                                            Signup
-                                        </Link>
+                                            <Link to="signup"
+                                                type="button"
+                                                className="ml-3 rounded-md px-3 py-1.5 bg-gray-900 p-1 text-gray-300 hover:text-white focus:outline-none "
+                                            >
+                                                Signup
+                                            </Link>
                                         </>
 
                                     )}
                                     {user && (
-                                        <>
-                                            <span className='text-gray-300 mr-2'>Hello, {user.firstName} </span>
+                                        <div className="flex items-center">
+                                            <span className='text-gray-300'>Hello, {user.firstName} </span>
+                                            <Link to="/owner/properties/add" className="mx-3 self-end rounded-md px-5 py-1.5 bg-sky-700 p-1 text-white hover:text-white focus:outline-none ">Add Property +</Link>
 
                                             <button onClick={logout} to="login"
                                                 type="button"
@@ -109,7 +110,7 @@ function Header() {
                                             >
                                                 Logout
                                             </button>
-                                        </>
+                                        </div>
                                     )}
                                 </div>
                             </div>
