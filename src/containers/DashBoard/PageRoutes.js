@@ -1,7 +1,7 @@
 import { Route, Routes, Navigate } from "react-router";
 import PropertyDetails from "../../components/Properties/PropertyDetails"
-import Property from "../../components/Properties/Property";
 import Properties from "../../components/Properties/Properties";
+import Favorites from "../../components/Favorites/Favorites";
 
 
 
@@ -10,7 +10,7 @@ export default function PageRoutes(props) {
     return (
         <Routes>
             <Route path="/propertyDetails/:id" element={<PropertyDetails/> } />
-            {/* <Route path="/property" element={<Property/> } /> */}
+            <Route path="/favorite" element={<Favorites/> } />
             <Route path="/property" element={<Properties/> } />
             
         </Routes>
