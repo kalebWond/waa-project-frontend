@@ -17,7 +17,7 @@ const Header = () => {
                     <Link to={'/property'} >Property</Link>
                     <span>&nbsp;&nbsp;&nbsp;</span>
 
-                    <Link to={'/propertyDetails'}>Property Details</Link>
+                    {/* <Link to={'/propertyDetails'}>Property Details</Link> */}
 
                 </div>
 
