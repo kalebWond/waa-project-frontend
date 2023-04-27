@@ -8,18 +8,20 @@ function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    setUser({
-      id: localStorage.getItem("id"),
-      firstName: localStorage.getItem("firstName"),
-      role: localStorage.getItem("role")
-    })
+    if (localStorage.getItem("id")) {
+      setUser({
+        id: localStorage.getItem("id"),
+        firstName: localStorage.getItem("firstName"),
+        role: localStorage.getItem("role")
+      })
+    }
   }, [])
-  
+
 
   return (
     <div>
       <BrowserRouter>
-        <UserContext.Provider value={{user, setUser}}>
+        <UserContext.Provider value={{ user, setUser }}>
           <PageRoutes />
         </UserContext.Provider>
       </BrowserRouter>

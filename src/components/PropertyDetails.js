@@ -15,6 +15,7 @@ function PropertyDetails() {
             .then(res => setProperty(res.data))
             .catch(err => console.log(err))
         if (user) {
+            console.log(user)
             fetchFavs();
         }
     }, [])

@@ -20,9 +20,9 @@ instance.interceptors.request.use(function (config) {
     // Do something with response data
     return response;
   }, function (error) {
-    if(error.response.status) {
-      // window.location = "http://localhost:3000/login"
-    }
+    // if(error.response.status) {
+    //   window.location = "http://localhost:3000/login"
+    // }
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
     return Promise.reject(error);

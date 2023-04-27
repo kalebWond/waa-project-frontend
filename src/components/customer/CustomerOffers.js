@@ -56,6 +56,9 @@ function CustomerOffers() {
                 Offer Status
               </th>
               <th scope="col" className="px-6 py-3">
+                Property Status
+              </th>
+              <th scope="col" className="px-6 py-3">
                 Action
               </th>
             </tr>
@@ -79,8 +82,11 @@ function CustomerOffers() {
                   {o.status}
                 </td>
                 <td className="px-6 py-4">
-                  <button onClick={() => onEdit(o.id)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-3">Edit</button>
-                  <button onClick={() => onDelete(o.id)} className="font-medium text-red-600 dark:text-blue-500 hover:underline">Delete</button>
+                  {o.property?.propertyStatus}
+                </td>
+                <td className="px-6 py-4">
+                  <button disabled={o.status === 'DECLINED' || o.property?.propertyStatus === 'RENTED' || o.property?.propertyStatus === 'SOLD'} onClick={() => onEdit(o.id)} className="font-medium text-blue-600 dark:text-blue-500 mr-3 enabled:hover:underline disabled:text-gray-500">Edit</button>
+                  <button disabled={o.status === 'DECLINED' || o.property?.propertyStatus === 'RENTED' || o.property?.propertyStatus === 'SOLD'} onClick={() => onDelete(o.id)} className="font-medium text-red-600 dark:text-blue-500 enabled:hover:underline disabled:text-gray-500">Delete</button>
                 </td>
               </tr>
             ))}

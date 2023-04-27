@@ -12,9 +12,10 @@ function AddOffer() {
     const onSubmit = (e) => {
         e.preventDefault();
         const price = formRef.current["price"].value;
+        
         const body = {
-            customer: { id: user.id },
-            property: { id: pptId },
+            customerId: user.id,
+            propertyId: pptId,
             price
         }
         userAxios.post(`http://localhost:8080/api/v1/customers/${user.id}/offers`, body)

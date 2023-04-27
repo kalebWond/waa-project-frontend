@@ -24,14 +24,28 @@ function Header() {
                 { name: 'Offers', to: '/customer/offers', current: false },
             ]
             break;
-    
+        case "OWNER":
+            navigation = [
+                { name: 'Home', to: '/owner', current: false },
+                { name: 'Properties', to: '/properties', current: false },
+                { name: 'My Properties', to: '/owner/properties', current: false },
+                { name: 'Offers', to: '/owner/offers', current: false },
+            ]
+            break;
+
         default:
             navigation = [
                 { name: 'Properties', to: '/properties', current: false }
             ]
             break;
     }
-    
+
+    const logout = () => {
+        setUser(null); 
+        localStorage.clear();
+        nav("/");
+    }
+
     return (
         <>
             <Disclosure as="nav" className="bg-gray-800">
@@ -68,26 +82,34 @@ function Header() {
                                 </div>
                                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                                     {!user && (
-
+                                        <>
                                         <Link to="login"
                                             type="button"
-                                            className="rounded-md px-3 py-2 bg-gray-900 p-1 text-gray-300 hover:text-white focus:outline-none "
+                                            className="rounded-md px-3 py-1.5 bg-gray-900 p-1 text-gray-300 hover:text-white focus:outline-none "
                                         >
                                             Login
                                         </Link>
+
+                                        <Link to="signup"
+                                            type="button"
+                                            className="ml-3 rounded-md px-3 py-1.5 bg-gray-900 p-1 text-gray-300 hover:text-white focus:outline-none "
+                                        >
+                                            Signup
+                                        </Link>
+                                        </>
 
                                     )}
                                     {user && (
                                         <>
                                             <span className='text-gray-300 mr-2'>Hello, {user.firstName} </span>
 
-                                            <button onClick={() => { setUser(null); nav("/") }} to="login"
+                                            <button onClick={logout} to="login"
                                                 type="button"
                                                 className="rounded-md px-3 py-2 bg-gray-900 p-1 text-gray-300 hover:text-white focus:outline-none "
                                             >
                                                 Logout
                                             </button>
-                                            </>
+                                        </>
                                     )}
                                 </div>
                             </div>

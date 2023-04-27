@@ -21,6 +21,7 @@ function Properties() {
         axios.get(BASE_URL)
             .then(res => setProperties(res.data))
             .catch(err => console.log(err))
+        
         if (user && user.role === "CUSTOMER") {
             fetchFavs();
         }
@@ -106,10 +107,10 @@ function Properties() {
                     placeholder="city, state or both" />
                 <Dropdown value="propertyType" title="Property Type" items={propertyTypes} onClicked={onClicked} />
                 <Dropdown value="listingType" title="Listing Type" items={listingTypes} onClicked={onClicked} />
-                <Dropdown value="minBedrooms" title="Min Beds" items={numbers} onClicked={onClicked} />
-                <Dropdown value="maxBedrooms" title="Max Beds" items={numbers} onClicked={onClicked} />
-                <Dropdown value="minBathrooms" title="Min Baths" items={numbers} onClicked={onClicked} />
-                <Dropdown value="maxBathrooms" title="Max Baths" items={numbers} onClicked={onClicked} />
+                <Dropdown value="minBedRooms" title="Min Beds" items={numbers} onClicked={onClicked} />
+                <Dropdown value="maxBedRooms" title="Max Beds" items={numbers} onClicked={onClicked} />
+                <Dropdown value="minBathRooms" title="Min Baths" items={numbers} onClicked={onClicked} />
+                <Dropdown value="maxBathRooms" title="Max Baths" items={numbers} onClicked={onClicked} />
                 <button onClick={onFilter} className="rounded-md px-5 py-1.5 bg-sky-700 p-1 text-white hover:text-white focus:outline-none ">Filter</button>
                 <button onClick={() => { setParams({}); setText('') }} className="text-sky-700">Clear</button>
             </div>
