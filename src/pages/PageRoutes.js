@@ -19,7 +19,7 @@ import AddOffer from '../components/customer/AddOffer'
 
 function PageRoutes() {
     return (
-        <div>
+      <>
             <Header />
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 mt-9">
                 <Routes>
@@ -44,7 +44,7 @@ function PageRoutes() {
                     </Route>
                 </Routes>
             </div>
-        </div>
+       </>
     )
 }
 

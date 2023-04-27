@@ -1,0 +1,12 @@
+.bg{
+    background-image: url("https://static.rdc.moveaws.com/images/hero/default/2021-11/webp/hp-hero-desktop-xl.webp");
+    background-size: cover;
+  width: auto;
+    height: 90vh;
+}
+
+.footer{
+    position: absolute;
+    bottom: 0;
+    height: 60px
+}

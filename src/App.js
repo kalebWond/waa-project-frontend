@@ -17,14 +17,15 @@ function App() {
   
 
   return (
-    <div>
+   <div className='bg'>
       <BrowserRouter>
         <UserContext.Provider value={{user, setUser}}>
           <PageRoutes />
         </UserContext.Provider>
       </BrowserRouter>
+   </div>
 
-    </div>
+  
   );
 }
 
