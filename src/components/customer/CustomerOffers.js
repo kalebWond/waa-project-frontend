@@ -9,10 +9,12 @@ function CustomerOffers() {
 
 
   useEffect(() => {
-    userAxios.get(`http://localhost:8080/api/v1/customers/${user?.id}/offers`)
-      .then(res => setOffers(res.data))
-      .catch(err => console.log(err))
-  }, [])
+    if (user) {
+      userAxios.get(`http://localhost:8080/api/v1/customers/${user?.id}/offers`)
+        .then(res => setOffers(res.data))
+        .catch(err => console.log(err))
+    }
+  }, [user])
 
   const onDelete = (offerId) => {
     console.log(offerId)
@@ -31,6 +33,19 @@ function CustomerOffers() {
       .catch(err => console.log(err))
   }
 
+  const getClasses = (val) => {
+    switch (val) {
+      case "WAITING":
+        return "bg-yellow-100 text-yellow-700"
+      case "ACCEPTED":
+        return "bg-green-200 text-green-700"
+      case "DECLINE":
+        return "bg-red-200 text-red-700"
+      default:
+        break;
+    }
+  }
+
   return (
     <div className="flex flex-col">
       <h1 className="text-xl font-medium">My Offers</h1>
@@ -38,7 +53,7 @@ function CustomerOffers() {
 
       <div className="mt-8 relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-600 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">
                 Listing Type
@@ -63,7 +78,7 @@ function CustomerOffers() {
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="[&>*:nth-child(even)]:bg-gray-100">
             {offers.map(o => (
               <tr key={o.id} className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -79,14 +94,14 @@ function CustomerOffers() {
                   <input id={o.id} type="text" className='border py-1 px-0.5' defaultValue={o.price} />
                 </td>
                 <td className="px-6 py-4">
-                  {o.status}
+                  <span className={`px-3 py-1.5 rounded-xl font-medium text-xs ${getClasses(o.status)}`}>{o.status}</span>
                 </td>
                 <td className="px-6 py-4">
                   {o.property?.propertyStatus}
                 </td>
                 <td className="px-6 py-4">
                   <button disabled={o.status === 'DECLINED' || o.property?.propertyStatus === 'RENTED' || o.property?.propertyStatus === 'SOLD'} onClick={() => onEdit(o.id)} className="font-medium text-blue-600 dark:text-blue-500 mr-3 enabled:hover:underline disabled:text-gray-500">Edit</button>
-                  <button disabled={o.status === 'DECLINED' || o.property?.propertyStatus === 'RENTED' || o.property?.propertyStatus === 'SOLD'} onClick={() => onDelete(o.id)} className="font-medium text-red-600 dark:text-blue-500 enabled:hover:underline disabled:text-gray-500">Delete</button>
+                  <button disabled={o.status === 'DECLINED' || o.property?.propertyStatus === 'RENTED' || o.property?.propertyStatus === 'SOLD' || o.property?.propertyStatus === 'CONTINGENT'} onClick={() => onDelete(o.id)} className="font-medium text-red-600 dark:text-blue-500 enabled:hover:underline disabled:text-gray-500">Delete</button>
                 </td>
               </tr>
             ))}

@@ -52,6 +52,7 @@ function PropertyDetails() {
                     <img src="http://localhost:3000/img/house.webp" alt="" className="" />
                     <div className="flex flex-col px-2 py-3 items-start">
                         <h1>For {property.listingType}</h1>
+                        <h1>{property.price?.toLocaleString()}</h1>
                         <h1>{property.propertyStatus}</h1>
                         <h1>{property.propertyType}</h1>
                         <h1>{property.builtYear}</h1>
@@ -68,10 +69,10 @@ function PropertyDetails() {
                         <p>Heater: {property.propertyDetails?.heater}</p>
                         <p>Cooling: {property.propertyDetails?.cooling}</p>
                         <p>Deposit: ${property.propertyDetails?.deposit}</p>
-                        {user && <div className="flex mt-3">
-                            <Link to={"/customer/offers/add/"+property.id} className="rounded bg-sky-700 text-white font-semibold px-3 py-2 mr-5">Make offer</Link>
-                            <button onClick={toggleFav} className="rounded border border-sky-700 text-sky-700 font-semibold px-3 py-2">{isFav ? 'Remove from favorites' : 'Add to Favorites'}</button>
-                        </div>}
+                        <div className="flex mt-3">
+                            <Link to={user ? "/customer/offers/add/"+property.id : "/login?return=/properties/"+id} className="rounded bg-sky-700 text-white font-semibold px-3 py-2 mr-5">Make offer</Link>
+                            { user && <button onClick={toggleFav} className="rounded border border-sky-700 text-sky-700 font-semibold px-3 py-2">{isFav ? 'Remove from favorites' : 'Add to Favorites'}</button> }
+                        </div>
                     </div>
                 </div>
             )}

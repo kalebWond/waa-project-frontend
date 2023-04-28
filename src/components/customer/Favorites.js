@@ -8,10 +8,12 @@ function Favorites() {
   const [favs, setFavs] = useState([])
 
   useEffect(() => {
-    userAxios.get(`http://localhost:8080/api/v1/customers/${user.id}/favorites`)
-      .then(({ data }) => setFavs(data))
-      .catch(err => console.log(err))
-  }, [])
+    if (user) {
+      userAxios.get(`http://localhost:8080/api/v1/customers/${user.id}/favorites`)
+        .then(({ data }) => setFavs(data))
+        .catch(err => console.log(err))
+    }
+  }, [user])
 
   const checkIfFav = (pptId) => {
     return favs.some(fav => fav.id === pptId)
@@ -28,11 +30,14 @@ function Favorites() {
         .catch(err => console.log(err))
     }
   }
-
+  if (favs.length === 0) {
+    return <h1 className="text-center font-semibold text-3xl text-gray-800">
+      No Favorite properties found
+    </h1>
+  }
   return (
     <div className="grid gap-8 grid-cols-3 grid-rows-3">
       {favs.map(fav => <Property isFav={checkIfFav(fav.id)} key={fav.id} data={fav} toggleFav={toggleFav} />)}
-      { favs.length === 0 && <h1>No favorite properties</h1> }
     </div>
   )
 }

@@ -1,12 +1,14 @@
 import React, { useContext, useRef } from 'react'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 
 function Login() {
   const formRef = useRef(null);
   const nav = useNavigate();
   const { setUser } = useContext(UserContext);
+  const [ query ] = useSearchParams()
+  const return_url = query.get("return")
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -24,9 +26,15 @@ function Login() {
         localStorage.setItem("role", res.data.role)
         localStorage.setItem("firstName", res.data.firstName)
         localStorage.setItem("id", res.data.id)
+        localStorage.setItem("status", res.data.status)
+        
         switch (res.data.role) {
           case "CUSTOMER":
-            nav("/customer", { replace: true });
+            if(return_url) {
+              nav(return_url, { replace: true });
+              break;
+            }
+            nav("/properties", { replace: true });
             break;
           case "OWNER":
             nav("/owner", { replace: true });

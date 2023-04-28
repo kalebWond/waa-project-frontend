@@ -1,11 +1,7 @@
 import React, { useContext } from 'react'
-import { Fragment } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Disclosure } from '@headlessui/react'
 import { Link, useNavigate } from 'react-router-dom'
 import { UserContext } from '../context/UserContext'
-
-
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -30,6 +26,14 @@ function Header() {
                 { name: 'Properties', to: '/properties', current: false },
                 { name: 'My Properties', to: '/owner/properties', current: false },
                 { name: 'Offers', to: '/owner/offers', current: false },
+            ]
+            break;
+        case "ADMIN":
+            navigation = [
+                { name: 'Home', to: '/admin', current: false },
+                { name: 'Properties', to: '/properties', current: false },
+                { name: 'Owners', to: '/admin/owners', current: false },
+                { name: 'Customers', to: '/admin/customers', current: false },
             ]
             break;
 
@@ -89,7 +93,6 @@ function Header() {
                                             >
                                                 Login
                                             </Link>
-
                                             <Link to="signup"
                                                 type="button"
                                                 className="ml-3 rounded-md px-3 py-1.5 bg-gray-900 p-1 text-gray-300 hover:text-white focus:outline-none "
@@ -101,8 +104,8 @@ function Header() {
                                     )}
                                     {user && (
                                         <div className="flex items-center">
-                                            <span className='text-gray-300'>Hello, {user.firstName} </span>
-                                            <Link to="/owner/properties/add" className="mx-3 self-end rounded-md px-5 py-1.5 bg-sky-700 p-1 text-white hover:text-white focus:outline-none ">Add Property +</Link>
+                                            <span className='text-gray-300 mr-3'>Hello, {user.firstName} </span>
+                                            { user && user?.role === "OWNER" && <Link to="/owner/properties/add" className="mr-3 self-end rounded-md px-5 py-1.5 bg-sky-700 p-1 text-white hover:text-white focus:outline-none ">Add Property +</Link> }
 
                                             <button onClick={logout} to="login"
                                                 type="button"

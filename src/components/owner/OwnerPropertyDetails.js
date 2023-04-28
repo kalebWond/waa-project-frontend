@@ -1,10 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { UserContext } from '../../context/UserContext'
 import userAxios from '../../util/axios'
 
 function OwnerPropertyDetails() {
     const { id } = useParams();
+    const formRef = useRef(null);
     const { user } = useContext(UserContext)
     const nav = useNavigate();
     const { state } = useLocation();
@@ -17,11 +18,40 @@ function OwnerPropertyDetails() {
         }
     }, [])
 
-    const onSubmit = (e, price) => {
+    const onSubmit = (e) => {
+        e.preventDefault();
+        const form = formRef.current;
 
-        userAxios.put(`http://localhost:8080/api/v1/owners/${user?.id}/offers/${property.id}`, { price })
-            .then(() => alert("Editted"))
-            .catch(err => console.log(err))
+        const body = {
+            propertyType: property.propertyType,
+            price: form["price"].value,
+            bedrooms: form["bedrooms"].value,
+            bathrooms: form["bathrooms"].value,
+            lotSize: form["lotSize"].value,
+            builtYear: property.builtYear,
+            listingType: property.listingType,
+            // photos: [{
+            //     "link": "htttp://link.com"
+            // }],
+
+            propertyDetails: {
+                pet: form["pet"].value,
+                cooling: form["cooling"].value,
+                heater: form["heater"].value,
+                deposit: form["deposit"].value,
+            },
+            address: {
+                street: form["street"].value,
+                city: form["city"].value,
+                state: form["state"].value,
+                zipcode: form["zipcode"].value,
+            }
+        };
+        if (user && property) {
+            userAxios.put(`http://localhost:8080/api/v1/owners/${user?.id}/properties/${property.id}`, body)
+                .then(() => alert("Editted"))
+                .catch(err => console.log(err))
+        }
     }
 
     return (
@@ -29,27 +59,138 @@ function OwnerPropertyDetails() {
             {property && (
                 <div className="">
                     <img src="http://localhost:3000/img/house.webp" alt="" className="" />
-                    <form className="flex flex-col px-2 py-3 items-start">
-                        <h1>For {property.listingType}</h1>
-                        <h1>{property.propertyStatus}</h1>
-                        <h1>{property.propertyType}</h1>
-                        <h1>{property.builtYear}</h1>
-                        <h1 className='mt-3'><input required className="border px-3 py-2 rounded-md focus:outline-sky-500" defaultValue={property?.lotSize}
-                            placeholder="Lot Size" name="lotSize" type="text" />sq. feet</h1>
-                        <div className="flex my-3">
-                            <p className='mr-6'>
-                                <input required className="border px-3 py-2 rounded-md focus:outline-sky-500" defaultValue={property?.bedrooms}
-                                    placeholder="Bedrooms" name="bedrooms" type="text" />
-                                <span> bedrooms</span></p>
-                            <p>
-                                <input required className="border px-3 py-2 rounded-md focus:outline-sky-500" defaultValue={property?.bathrooms}
-                                    placeholder="Bathrooms" name="bathrooms" type="text" />
-                                <span> bathrooms</span></p>
+                    <form ref={formRef} onSubmit={onSubmit} className="flex flex-col px-2 py-3 items-start">
+                        <div className="flex">
+                            <h1>For {property.listingType}</h1>
+                            <h1 className='ml-6'>{property.propertyStatus}</h1>
                         </div>
-                        <div className="my-3">
-                            <p className=''>Address</p>
-                            <input required className="border px-3 py-2 rounded-md focus:outline-sky-500" defaultValue={`${property.address?.street}, ${property.address?.city}, ${property.address?.state} ${property.address?.zipcode}`}
-                                placeholder="Address" name="address" type="text" />
+                        <div className="flex">
+                            <h1>{property.propertyType}</h1>
+                            <h1 className='ml-6'>{property.builtYear}</h1>
+                        </div>
+                        <div className="flex flex-col my-3">
+                            <label className="font-bold" htmlFor="price">
+                                Price
+                            </label>
+                            <input
+                                required
+                                className="border px-3 py-2 rounded-md focus:outline-sky-500"
+                                placeholder="Price"
+                                type="text"
+                                name="price"
+                                id="price"
+                                defaultValue={property?.price}
+                            />
+                        </div>
+                        <div className="flex flex-col my-3">
+                            <label className="font-bold" htmlFor="lotsize">
+                                Lot Size
+                            </label>
+                            <input
+                                required
+                                className="border px-3 py-2 rounded-md focus:outline-sky-500"
+                                placeholder="Lot size"
+                                type="text"
+                                name="lotSize"
+                                id="lotsize"
+                                defaultValue={property?.lotSize}
+                            />
+                        </div>
+                        <div className="flex items-center my-3">
+                            <div className="flex flex-col mr-3">
+                                <label className="font-bold" htmlFor="bedrooms">
+                                    Bedrooms
+                                </label>
+                                <input
+                                    required
+                                    className="border px-3 py-2 rounded-md focus:outline-sky-500"
+                                    placeholder="Bedrooms"
+                                    type="text"
+                                    name="bedrooms"
+                                    id="bedrooms"
+                                    defaultValue={property?.bedrooms}
+                                />
+                            </div>
+                            <div className="flex flex-col mr-3">
+                                <label className="font-bold" htmlFor="bathrooms">
+                                    Bathrooms
+                                </label>
+                                <input
+                                    required
+                                    className="border px-3 py-2 rounded-md focus:outline-sky-500"
+                                    placeholder="Bathrooms"
+                                    type="text"
+                                    name="bathrooms"
+                                    id="bathrooms"
+                                    defaultValue={property?.bathrooms}
+                                />
+                            </div>
+                        </div>
+                        <label className="font-bold mb-2">
+                            Address: *
+                        </label>
+                        <div className="flex">
+                            <div className="flex flex-col mr-3">
+                                <label className="font-bold" htmlFor="street">
+                                    Street
+                                </label>
+                                <input
+                                    required
+                                    className="border px-3 py-2 rounded-md focus:outline-sky-500"
+                                    placeholder="Street*"
+                                    type="text"
+                                    name="street"
+                                    id="street"
+                                    defaultValue={property?.address?.street}
+                                />
+                            </div>
+                            <div className="flex flex-col">
+                                <label className="font-bold" htmlFor="city">
+                                    City
+                                </label>
+                                <input
+                                    required
+                                    className="border px-3 py-2 rounded-md focus:outline-sky-500"
+                                    placeholder="City*"
+                                    type="text"
+                                    name="city"
+                                    id="city"
+                                    defaultValue={property?.address?.city}
+                                />
+                            </div>
+                        </div>
+                        <div className='mt-3'>
+                            <div className="flex">
+                                <div className="flex flex-col mr-3">
+                                    <label className="font-bold" htmlFor="state">
+                                        State
+                                    </label>
+                                    <input
+                                        required
+                                        className="border px-3 py-2 rounded-md focus:outline-sky-500"
+                                        placeholder="State*"
+                                        type="text"
+                                        name="state"
+                                        id="state"
+                                        defaultValue={property?.address?.state}
+                                    />
+                                </div>
+                                <div className="flex flex-col">
+                                    <label className="font-bold" htmlFor="zipcode">
+                                        Zipcode
+                                    </label>
+                                    <input
+                                        required
+                                        className="border px-3 py-2 rounded-md focus:outline-sky-500"
+                                        placeholder="Zipcode*"
+                                        type="text"
+                                        name="zipcode"
+                                        id="zipcode"
+                                        defaultValue={property?.address?.zipcode}
+                                    />
+                                </div>
+                            </div>
+                            <br />
                         </div>
                         <div className="my-1.5">
                             <p>Pets</p>
@@ -59,13 +200,13 @@ function OwnerPropertyDetails() {
                                     Allowed
                                 </label>
                                 <label htmlFor="pet-false">
-                                    <input id="pet-false" type="radio" name="pet" value={false} defaultChecked={property.propertyDetails?.pet} />
+                                    <input id="pet-false" type="radio" name="pet" value={false} defaultChecked={!property.propertyDetails?.pet} />
                                     Not allowed
                                 </label>
                             </div>
                         </div>
-                        <p className='mt-3'>Heater: {property.propertyDetails?.heater}</p>
-                        <input required className="border px-3 py-2 rounded-md focus:outline-sky-500" defaultValue={property.propertyDetails?.header}
+                        <p className='mt-3'>Heater</p>
+                        <input required className="border px-3 py-2 rounded-md focus:outline-sky-500" defaultValue={property.propertyDetails?.heater}
                             placeholder="Heater" name="heater" type="text" />
                         <p className='mt-3'>Cooling</p>
                         <input required className="border px-3 py-2 rounded-md focus:outline-sky-500" defaultValue={property.propertyDetails?.cooling}
