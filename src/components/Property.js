@@ -1,17 +1,26 @@
-import React, { useContext } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { HeartIcon } from '@heroicons/react/24/outline'
 import { HeartIcon as HeartSolid } from '@heroicons/react/24/solid'
 import { UserContext } from '../context/UserContext'
 
 function Property({ data, isFav, toggleFav }) {
   const { user } = useContext(UserContext);
-  const nav = useNavigate();
+  const [imageSrc, setImageSrc] = useState(null);
+
+    useEffect(() => {
+        fetch(data.photos[0]?.link)
+            .then(response => response.blob())
+            .then(blob => {
+                setImageSrc(URL.createObjectURL(blob));
+            })
+            .catch(error => console.error(error));
+    }, []);
 
   return (
     <div className="border group rounded-md hover:shadow-md transition flex flex-col">
       <div className="w-full relative h-64">
-        <img src="http://localhost:3000/img/house.webp" alt="" className="h-full" />
+        <img src={imageSrc} alt="" className="h-full" />
         {user && user.role === 'CUSTOMER' && (
           <button onClick={() => toggleFav(data.id, isFav)} type="button"
             className="absolute bottom-1 right-2 rounded-full p-1 text-red-600 hover:text-white active:scale-110 transition">

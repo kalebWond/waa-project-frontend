@@ -4,6 +4,7 @@ import { UserContext } from '../../context/UserContext'
 import userAxios from '../../util/axios'
 
 function OwnerPropertyDetails() {
+    const [imageSrc, setImageSrc] = useState(null);
     const { id } = useParams();
     const formRef = useRef(null);
     const { user } = useContext(UserContext)
@@ -11,6 +12,19 @@ function OwnerPropertyDetails() {
     const { state } = useLocation();
     const property = state?.property;
     console.log(state)
+
+
+    useEffect(() => {
+        if (property) {
+            fetch(property.photos[0]?.link)
+                .then(response => response.blob())
+                .then(blob => {
+                    setImageSrc(URL.createObjectURL(blob));
+                })
+                .catch(error => console.error(error));
+        }
+    }, [property]);
+
 
     useEffect(() => {
         if (!property) {
@@ -58,7 +72,7 @@ function OwnerPropertyDetails() {
         <>
             {property && (
                 <div className="">
-                    <img src="http://localhost:3000/img/house.webp" alt="" className="" />
+                    <img src={imageSrc} alt="" className="" />
                     <form ref={formRef} onSubmit={onSubmit} className="flex flex-col px-2 py-3 items-start">
                         <div className="flex">
                             <h1>For {property.listingType}</h1>
@@ -105,7 +119,7 @@ function OwnerPropertyDetails() {
                                     required
                                     className="border px-3 py-2 rounded-md focus:outline-sky-500"
                                     placeholder="Bedrooms"
-                                    type="text"
+                                    type="number"
                                     name="bedrooms"
                                     id="bedrooms"
                                     defaultValue={property?.bedrooms}
@@ -119,7 +133,7 @@ function OwnerPropertyDetails() {
                                     required
                                     className="border px-3 py-2 rounded-md focus:outline-sky-500"
                                     placeholder="Bathrooms"
-                                    type="text"
+                                    type="number"
                                     name="bathrooms"
                                     id="bathrooms"
                                     defaultValue={property?.bathrooms}
@@ -213,7 +227,7 @@ function OwnerPropertyDetails() {
                             placeholder="Cooling" name="cooling" type="text" />
                         <p className='mt-3'>Deposit</p>
                         <input required className="mb-3 border px-3 py-2 rounded-md focus:outline-sky-500" defaultValue={property.propertyDetails?.deposit}
-                            placeholder="Deposit" name="deposit" type="text" />
+                            placeholder="Deposit" name="deposit" type="number" />
                         <div className="flex">
                             <button className="rounded bg-sky-700 text-white font-semibold px-3 py-2 mr-5">Edit Property</button>
                             <Link to="/owner/properties" className="rounded border border-sky-700 text-sky-700 font-semibold px-3 py-2">Back</Link>

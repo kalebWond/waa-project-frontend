@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import userAxios from "../../util/axios";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from '../../context/UserContext';
@@ -8,10 +8,13 @@ function AddProperty() {
     const formRef = useRef(null);
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
+    const [file, setFile] = useState('');
+    const [isUploading, setIsUploading] = useState(false)
 
     const AddHandler = (e) => {
         e.preventDefault();
         const form = formRef.current;
+        setIsUploading(true)
 
         const body = {
             propertyType: form["propertyType"].value,
@@ -21,32 +24,47 @@ function AddProperty() {
             lotSize: form["lotSize"].value,
             builtYear: form["builtYear"].value,
             listingType: form["listingType"].value,
-            // photos: [{
-            //     "link": "htttp://link.com"
-            // }],
-
-            propertyDetails: {
+            // propertyDetails: {
                 pet: form["pet"].value,
                 cooling: form["cooling"].value,
                 heater: form["heater"].value,
                 deposit: form["deposit"].value,
-            },
-            address: {
+            // },
+            // address: {
                 street: form["street"].value,
                 city: form["city"].value,
                 state: form["state"].value,
                 zipcode: form["zipcode"].value,
-            }
+            // },
+            ownerId: user.id
         };
-
-        if (user) {
-            userAxios.post(`http://localhost:8080/api/v1/owners/${user.id}/properties`, body)
-                .then(() => { alert("Property Added Successfully"); navigate("/owner/properties") })
-                .catch(err => console.log(err))
-        }
-
-
+        onUploadHandler(body)
     };
+
+    const cancelUpload = () => {
+        setFile(null);
+    }
+
+    const onFileChange = ({ target }) => {
+        const file = target.files[0];
+        setFile(file);
+    }
+
+    const onUploadHandler = (data) => {
+        const formData = new FormData();
+        
+        formData.append('file', file);
+        for (const [key, value] of Object.entries(data)) {
+            if(["propertyDetails", "address"].includes(key)) {
+                formData.append(key, JSON.stringify(value));
+                continue;
+            }
+            formData.append(key, value)
+        }
+        userAxios.post(`http://localhost:8080/api/v1/owners/${user.id}/properties`, formData)
+                .then(() => { setIsUploading(false); alert("Property Added Successfully"); navigate("/owner/properties") })
+                .catch(err => { setIsUploading(false); console.log(err)});
+    }
 
     if (user && user.status !== 'ACTIVE') {
         return (
@@ -62,7 +80,7 @@ function AddProperty() {
     }
 
     return (
-        <div className="flex  flex-col items-center">
+        <div className="flex  flex-col items-center mb-6">
             <form
                 ref={formRef}
                 onSubmit={AddHandler}
@@ -169,8 +187,14 @@ function AddProperty() {
                     <option value="SALE">SALE</option>
                 </select>
                 <br />
+                <label className="block my-3">
+                    <span className="sr-only">Choose photo</span>
+                    <input onChange={onFileChange} type="file" className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm 
+                        file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"/>
+                </label>
+                <br />
                 <label className="font-bold mb-2">
-                    Address: *
+                    Address
                 </label>
                 <div className="flex">
                     <div className="flex flex-col mr-3">
@@ -230,9 +254,6 @@ function AddProperty() {
                     </div>
                 </div>
                 <br />
-                <label className="font-bold" htmlFor="propertyDetails">
-                    Property Details:
-                </label>
                 <div className="gap-4">
                     <label className="font-bold mr-4" htmlFor="pet">
                         Pet Allowed
@@ -280,37 +301,17 @@ function AddProperty() {
                     name="deposit"
                     id="deposit"
                 />
-                {/* <input required className="border px-3 py-2 rounded-md focus:outline-sky-500" placeholder="Property Type" name="PropertyType" type="text" /> <br />
-                <input required className="border px-3 py-2 rounded-md focus:outline-sky-500" placeholder="Price" name="price" type="text" /> <br />
-                <input required className="border px-3 py-2 rounded-md focus:outline-sky-500" placeholder="Bed Rooms" name="bedrooms" type="number" /> <br />
-                <input required className="border px-3 py-2 rounded-md focus:outline-sky-500" placeholder="Bath Rooms" name="bathrooms" type="number" /> <br />
-                <input required className="border px-3 py-2 rounded-md focus:outline-sky-500" placeholder="Property Status" name="PropertyStatus" type="text" /> <br />
-                <input required className="border px-3 py-2 rounded-md focus:outline-sky-500" placeholder="Built Year" name="builtYear" type="date" /> <br />
-                <input required className="border px-3 py-2 rounded-md focus:outline-sky-500" placeholder="Bed Rooms" name="Listing Type" type="ListingType" /> <br />
-
-                <input required className="border px-3 py-2 rounded-md focus:outline-sky-500" placeholder="Street" name="street" type="text" /> <br />
-                <input required className="border px-3 py-2 rounded-md focus:outline-sky-500" placeholder="City" name="city" type="text" /> <br />
-                <input required className="border px-3 py-2 rounded-md focus:outline-sky-500" placeholder="State" name="state" type="text" /> <br />
-                <input required className="border px-3 py-2 rounded-md focus:outline-sky-500" placeholder="zipcode" name="zipcode" type="text" /> <br />
-
-                <input required className="border px-3 py-2 rounded-md focus:outline-sky-500" placeholder="Photos" name="photos" type="img" /> <br />
-
-                <div className="flex justify-evenly">
-                    <label className='mr-3' htmlFor="cus">
-                        <input id="cus" type="radio" name="role" value="CUSTOMER" />
-                        <span className="ml-1">Customer</span>
-                    </label>
-                    <label className='mr-3' htmlFor="own">
-                        <input id="own" type="radio" name="role" value="OWNER" />
-                        <span className="ml-1">Owner</span>
-                    </label>
-                </div> */}
-                <button className="rounded-md mt-8 px-3 py-2 bg-sky-600 p-1 text-white hover:bg-sky-700 hover:text-white focus:outline-none transitions">
+                <button className="flex justify-center items-center rounded-md mt-8 px-3 py-2 bg-sky-600 p-1 text-white hover:bg-sky-700 hover:text-white focus:outline-none transitions">
                     Add property
+                    {isUploading && (
+                        <span className="inline-block ml-2 animate-spin w-5 h-5 border-2 border-white ease-linear rounded-full border-t-2"></span>
+                    )}
                 </button>
             </form>
         </div>
     );
+
+    
 }
 
 export default AddProperty;

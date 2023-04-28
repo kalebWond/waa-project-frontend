@@ -9,6 +9,19 @@ function PropertyDetails() {
     const { user } = useContext(UserContext)
     const [property, setProperty] = useState(null);
     const [isFav, setIsFav] = useState(false)
+    const [imageSrc, setImageSrc] = useState(null);
+
+    useEffect(() => {
+        if (property) {
+            fetch(property.photos[0]?.link)
+                .then(response => response.blob())
+                .then(blob => {
+                    setImageSrc(URL.createObjectURL(blob));
+                })
+                .catch(error => console.error(error));
+        }
+    }, [property]);
+
 
     useEffect(() => {
         axios.get(`http://localhost:8080/api/v1/properties/${id}`)
@@ -49,7 +62,7 @@ function PropertyDetails() {
         <>
             {property && (
                 <div className="">
-                    <img src="http://localhost:3000/img/house.webp" alt="" className="" />
+                    <img src={imageSrc} alt="" className="" />
                     <div className="flex flex-col px-2 py-3 items-start">
                         <h1>For {property.listingType}</h1>
                         <h1>{property.price?.toLocaleString()}</h1>
@@ -70,8 +83,8 @@ function PropertyDetails() {
                         <p>Cooling: {property.propertyDetails?.cooling}</p>
                         <p>Deposit: ${property.propertyDetails?.deposit}</p>
                         <div className="flex mt-3">
-                            <Link to={user ? "/customer/offers/add/"+property.id : "/login?return=/properties/"+id} className="rounded bg-sky-700 text-white font-semibold px-3 py-2 mr-5">Make offer</Link>
-                            { user && <button onClick={toggleFav} className="rounded border border-sky-700 text-sky-700 font-semibold px-3 py-2">{isFav ? 'Remove from favorites' : 'Add to Favorites'}</button> }
+                            <Link to={user ? "/customer/offers/add/" + property.id : "/login?return=/properties/" + id} className="rounded bg-sky-700 text-white font-semibold px-3 py-2 mr-5">Make offer</Link>
+                            {user && <button onClick={toggleFav} className="rounded border border-sky-700 text-sky-700 font-semibold px-3 py-2">{isFav ? 'Remove from favorites' : 'Add to Favorites'}</button>}
                         </div>
                     </div>
                 </div>

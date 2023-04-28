@@ -1,11 +1,21 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 function OwnerProperty({ data }) {
+  const [imageSrc, setImageSrc] = useState(null);
+  useEffect(() => {
+      fetch(data.photos[0]?.link)
+          .then(response => response.blob())
+          .then(blob => {
+              setImageSrc(URL.createObjectURL(blob));
+          })
+          .catch(error => console.error(error));
+  }, []);
+
   return (
     <div className="border group rounded-md hover:shadow-md transition flex flex-col">
       <div className="w-full relative h-64">
-        <img src="http://localhost:3000/img/house.webp" alt="" className="h-full" />
+        <img src={imageSrc} alt="" className="h-full" />
       </div>
       <Link to={"/owner/properties/" + data.id} state={{ property: data }} className="flex-1 flex flex-col px-2 py-3">
         <h1>For {data.listingType}</h1>
