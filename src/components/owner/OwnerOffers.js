@@ -40,6 +40,12 @@ function OwnerOffers() {
     }
   }
 
+  if (offers.length === 0) {
+    return <h1 className="text-center font-semibold text-3xl text-gray-800">
+      No offers to your properties yet
+    </h1>
+  }
+
   return (
     <div className="flex flex-col">
       <h1 className="text-xl font-medium">My Offers</h1>

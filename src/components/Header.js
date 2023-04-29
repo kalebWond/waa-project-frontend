@@ -14,7 +14,6 @@ function Header() {
     switch (user?.role) {
         case "CUSTOMER":
             navigation = [
-                { name: 'Home', to: '/customer', current: false },
                 { name: 'Properties', to: '/properties', current: false },
                 { name: 'Favorites', to: '/customer/favorites', current: false },
                 { name: 'Offers', to: '/customer/offers', current: false },
@@ -22,7 +21,6 @@ function Header() {
             break;
         case "OWNER":
             navigation = [
-                { name: 'Home', to: '/owner', current: false },
                 { name: 'Properties', to: '/properties', current: false },
                 { name: 'My Properties', to: '/owner/properties', current: false },
                 { name: 'Offers', to: '/owner/offers', current: false },
@@ -30,7 +28,6 @@ function Header() {
             break;
         case "ADMIN":
             navigation = [
-                { name: 'Home', to: '/admin', current: false },
                 { name: 'Properties', to: '/properties', current: false },
                 { name: 'Owners', to: '/admin/owners', current: false },
                 { name: 'Customers', to: '/admin/customers', current: false },

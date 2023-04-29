@@ -37,10 +37,10 @@ function Login() {
             nav("/properties", { replace: true });
             break;
           case "OWNER":
-            nav("/owner", { replace: true });
+            nav("/owner/properties", { replace: true });
             break;
           case "ADMIN":
-            nav("/admin", { replace: true });
+            nav("/properties", { replace: true });
             break;
           default:
             nav("/", { replace: true });

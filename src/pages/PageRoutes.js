@@ -23,9 +23,14 @@ function PageRoutes() {
   return (
     <div>
       <Header />
+      <div className="">
+      <Routes>
+          <Route path="/" element={<Anonymous />} />
+          </Routes>
+      </div>
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 mt-9">
         <Routes>
-          <Route path="/" element={<Anonymous />} />
+          {/* <Route path="/" element={<Anonymous />} /> */}
           <Route path="properties" element={<Properties />} />
           <Route path="properties/:id" element={<PropertyDetails />} />
           <Route path="login" element={<Login />} />

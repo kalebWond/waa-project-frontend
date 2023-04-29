@@ -20,7 +20,7 @@ function Signup() {
     }
 
     axios.post('http://localhost:8080/api/v1/auth/signup', body)
-      .then(() => { alert("Successfully registered"); form.reset() })
+      .then(() => { alert("Successfully registered"); nav("/login") })
       .catch(err => console.log(err))
   }
 
