@@ -105,12 +105,12 @@ function Properties() {
             <div className="flex justify-between mb-6 items-center">
                 <input value={text} onChange={({ target }) => setText(target.value)} type="text" className="border gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                     placeholder="city, state or both" />
-                <Dropdown value="propertyType" title="Property Type" items={propertyTypes} onClicked={onClicked} />
-                <Dropdown value="listingType" title="Listing Type" items={listingTypes} onClicked={onClicked} />
-                <Dropdown value="minBedRooms" title="Min Beds" items={numbers} onClicked={onClicked} />
-                <Dropdown value="maxBedRooms" title="Max Beds" items={numbers} onClicked={onClicked} />
-                <Dropdown value="minBathRooms" title="Min Baths" items={numbers} onClicked={onClicked} />
-                <Dropdown value="maxBathRooms" title="Max Baths" items={numbers} onClicked={onClicked} />
+                <Dropdown query={params} value="propertyType" title="Property Type" items={propertyTypes} onClicked={onClicked} />
+                <Dropdown query={params} value="listingType" title="Listing Type" items={listingTypes} onClicked={onClicked} />
+                <Dropdown query={params} value="minBedRooms" title="Min Beds" items={numbers} onClicked={onClicked} />
+                <Dropdown query={params} value="maxBedRooms" title="Max Beds" items={numbers} onClicked={onClicked} />
+                <Dropdown query={params} value="minBathRooms" title="Min Baths" items={numbers} onClicked={onClicked} />
+                <Dropdown query={params} value="maxBathRooms" title="Max Baths" items={numbers} onClicked={onClicked} />
                 <button onClick={onFilter} className="rounded-md px-5 py-1.5 bg-sky-700 p-1 text-white hover:text-white focus:outline-none ">Filter</button>
                 <button onClick={() => { setParams({}); setText('') }} className="text-sky-700">Clear</button>
             </div>

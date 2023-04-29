@@ -83,8 +83,8 @@ function PropertyDetails() {
                         <p>Cooling: {property.propertyDetails?.cooling}</p>
                         <p>Deposit: ${property.propertyDetails?.deposit}</p>
                         <div className="flex mt-3">
-                            <Link to={user ? "/customer/offers/add/" + property.id : "/login?return=/properties/" + id} className="rounded bg-sky-700 text-white font-semibold px-3 py-2 mr-5">Make offer</Link>
-                            {user && <button onClick={toggleFav} className="rounded border border-sky-700 text-sky-700 font-semibold px-3 py-2">{isFav ? 'Remove from favorites' : 'Add to Favorites'}</button>}
+                            { user && user.role === 'CUSTOMER' && <Link to={user ? "/customer/offers/add/" + property.id : "/login?return=/properties/" + id} className="rounded bg-sky-700 text-white font-semibold px-3 py-2 mr-5">Make offer</Link> }
+                            { user && user.role === 'CUSTOMER' && <button onClick={toggleFav} className="rounded border border-sky-700 text-sky-700 font-semibold px-3 py-2">{isFav ? 'Remove from favorites' : 'Add to Favorites'}</button>}
                         </div>
                     </div>
                 </div>
